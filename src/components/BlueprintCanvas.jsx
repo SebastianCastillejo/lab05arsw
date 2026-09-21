@@ -5,8 +5,21 @@ export default function BlueprintCanvas({
   points = [],
   width = 520,
   height = 360,
+  onPointAdd,
 }) {
   const ref = useRef(null)
+
+  // Convierte el clic a coordenadas del canvas (en pantalla puede verse más pequeño)
+  const handleClick = (e) => {
+    if (!onPointAdd) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    const scaleX = rect.width ? width / rect.width : 1
+    const scaleY = rect.height ? height / rect.height : 1
+    onPointAdd({
+      x: Math.round((e.clientX - rect.left) * scaleX),
+      y: Math.round((e.clientY - rect.top) * scaleY),
+    })
+  }
 
   useEffect(() => {
     const canvas = ref.current
@@ -57,12 +70,14 @@ export default function BlueprintCanvas({
       ref={ref}
       width={width}
       height={height}
+      onClick={handleClick}
       style={{
         background: '#0b1220',
         border: '1px solid #334155',
         borderRadius: 12,
         width: '100%',
         maxWidth: width,
+        cursor: onPointAdd ? 'crosshair' : 'default',
       }}
     />
   )

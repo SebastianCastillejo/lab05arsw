@@ -3,7 +3,7 @@ import api from '../src/services/apiClient.js'
 import apimock from '../src/services/apimock.js'
 import blueprintsApiClient from '../src/services/blueprintsApiClient.js'
 
-const methods = ['getAll', 'getByAuthor', 'getByAuthorAndName', 'create']
+const methods = ['getAll', 'getByAuthor', 'getByAuthorAndName', 'create', 'update', 'remove']
 
 describe('apimock y apiclient', () => {
   it('tienen la misma interfaz', () => {
@@ -35,12 +35,31 @@ describe('apimock', () => {
   it('falla si el autor no existe', async () => {
     await expect(apimock.getByAuthor('Nadie')).rejects.toThrow('No hay planos')
   })
+
+  it('actualiza los puntos de un plano', async () => {
+    const points = [{ x: 5, y: 5 }]
+    await apimock.update('JohnConnor', 'garage', { author: 'JohnConnor', name: 'garage', points })
+    expect((await apimock.getByAuthorAndName('JohnConnor', 'garage')).points).toEqual(points)
+  })
+
+  it('borra un plano', async () => {
+    await apimock.remove('SarahConnor', 'tower')
+    await expect(apimock.getByAuthorAndName('SarahConnor', 'tower')).rejects.toThrow('No existe')
+  })
+
+  it('con VITE_MOCK_FAIL_WRITES=true editar y borrar fallan', async () => {
+    vi.stubEnv('VITE_MOCK_FAIL_WRITES', 'true')
+    await expect(apimock.remove('JohnConnor', 'house')).rejects.toThrow('No se pudo borrar')
+    vi.unstubAllEnvs()
+  })
 })
 
 describe('apiclient', () => {
   beforeEach(() => {
     vi.spyOn(api, 'get').mockResolvedValue({ data: 'ok' })
     vi.spyOn(api, 'post').mockResolvedValue({ data: 'creado' })
+    vi.spyOn(api, 'put').mockResolvedValue({ data: 'actualizado' })
+    vi.spyOn(api, 'delete').mockResolvedValue({ data: 'borrado' })
   })
   afterEach(() => vi.restoreAllMocks())
 
@@ -57,6 +76,12 @@ describe('apiclient', () => {
     const bp = { author: 'A', name: 'b', points: [] }
     expect(await blueprintsApiClient.create(bp)).toBe('creado')
     expect(api.post).toHaveBeenCalledWith('/blueprints', bp)
+
+    expect(await blueprintsApiClient.update('A', 'b', bp)).toBe('actualizado')
+    expect(api.put).toHaveBeenCalledWith('/blueprints/A/b', bp)
+
+    expect(await blueprintsApiClient.remove('A', 'b')).toBe('borrado')
+    expect(api.delete).toHaveBeenCalledWith('/blueprints/A/b')
   })
 })
 

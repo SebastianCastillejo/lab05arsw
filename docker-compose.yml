@@ -1,15 +1,18 @@
-version: '3.9'
 services:
   web:
-    build: .
+    build:
+      context: .
+      args:
+        # El navegador corre en tu computador, por eso el backend se llama por localhost
+        - VITE_API_BASE_URL=http://localhost:8080/api
+        - VITE_USE_MOCK=false
     ports:
       - '5173:4173'
-    environment:
-      - VITE_API_BASE_URL=http://backend:8080/api
-      - VITE_USE_MOCK=false
     depends_on:
       - backend
   backend:
+    # Cambia esta imagen por la de tu backend de los labs 3 y 4,
+    # o usa build: con la ruta de ese proyecto
     image: ghcr.io/your-org/blueprints-backend:latest
     ports:
       - '8080:8080'

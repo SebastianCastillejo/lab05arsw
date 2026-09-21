@@ -100,3 +100,68 @@ nav a.active {
 .error {
   color: #fca5a5;
 }
+
+/* ---- Recomendaciones: banner, acciones, top 5, editor ---- */
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn.danger {
+  border-color: #7f1d1d;
+  color: #fca5a5;
+}
+a.btn {
+  display: inline-block;
+}
+nav {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.banner {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #7f1d1d;
+  border-radius: 10px;
+  background: rgba(127, 29, 29, 0.25);
+  color: #fecaca;
+}
+.success {
+  color: #86efac;
+}
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.table td.actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+.top-list {
+  margin: 0;
+  padding-left: 20px;
+}
+.top-list li {
+  padding: 6px 0;
+  border-bottom: 1px solid #1f2937;
+}
+.top-list li > span:first-child {
+  margin-right: 8px;
+}
+.top-list .top-actions {
+  float: right;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.top-list small {
+  color: #94a3b8;
+}

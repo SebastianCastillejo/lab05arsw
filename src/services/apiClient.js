@@ -17,8 +17,9 @@ api.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err.response && err.response.status === 401) {
-      // Optionally redirect to login or clear token
+      // Token vencido o inválido: se borra y se avisa a la app para cerrar la sesión
       localStorage.removeItem('token')
+      window.dispatchEvent(new Event('auth:expired'))
     }
     return Promise.reject(err)
   },

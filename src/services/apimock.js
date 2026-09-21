@@ -62,6 +62,13 @@ const delay = (value, ms = 300) =>
 
 const notFound = (msg) => Promise.reject(new Error(msg))
 
+// Con VITE_MOCK_FAIL_WRITES=true editar y borrar fallan, para ver cómo se revierte el cambio
+const failWrite = (msg) =>
+  new Promise((_, reject) => setTimeout(() => reject(new Error(msg)), 1000))
+const shouldFailWrites = () => import.meta.env.VITE_MOCK_FAIL_WRITES === 'true'
+
+const indexOf = (author, name) => data.findIndex((b) => b.author === author && b.name === name)
+
 const apimock = {
   getAll: () => delay(data),
 
@@ -85,6 +92,22 @@ const apimock = {
     const bp = structuredClone(blueprint)
     data.push(bp)
     return delay(bp)
+  },
+
+  update: (author, name, blueprint) => {
+    if (shouldFailWrites()) return failWrite(`No se pudo actualizar el plano "${name}"`)
+    const i = indexOf(author, name)
+    if (i === -1) return notFound(`No existe el plano "${name}" de "${author}"`)
+    data[i] = { author, name, points: structuredClone(blueprint.points) }
+    return delay(data[i])
+  },
+
+  remove: (author, name) => {
+    if (shouldFailWrites()) return failWrite(`No se pudo borrar el plano "${name}"`)
+    const i = indexOf(author, name)
+    if (i === -1) return notFound(`No existe el plano "${name}" de "${author}"`)
+    data.splice(i, 1)
+    return delay({ author, name })
   },
 }
 

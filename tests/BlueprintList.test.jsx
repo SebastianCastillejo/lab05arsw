@@ -3,7 +3,14 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import BlueprintList from '../src/components/BlueprintList.jsx'
 
 const items = [
-  { author: 'JohnConnor', name: 'house', points: [{ x: 1, y: 1 }, { x: 2, y: 2 }] },
+  {
+    author: 'JohnConnor',
+    name: 'house',
+    points: [
+      { x: 1, y: 1 },
+      { x: 2, y: 2 },
+    ],
+  },
   { author: 'JohnConnor', name: 'garage', points: [{ x: 1, y: 1 }] },
 ]
 

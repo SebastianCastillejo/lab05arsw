@@ -10,6 +10,18 @@ const blueprintsApiClient = {
     (await api.get(`/blueprints/${encodeURIComponent(author)}/${encodeURIComponent(name)}`)).data,
 
   create: async (blueprint) => (await api.post('/blueprints', blueprint)).data,
+
+  update: async (author, name, blueprint) =>
+    (
+      await api.put(
+        `/blueprints/${encodeURIComponent(author)}/${encodeURIComponent(name)}`,
+        blueprint,
+      )
+    ).data,
+
+  remove: async (author, name) =>
+    (await api.delete(`/blueprints/${encodeURIComponent(author)}/${encodeURIComponent(name)}`))
+      .data,
 }
 
 export default blueprintsApiClient

@@ -6,7 +6,7 @@ import BlueprintsPage from '../src/pages/BlueprintsPage.jsx'
 
 // Mock de thunks del slice para no requerir backend
 vi.mock('../src/features/blueprints/blueprintsSlice.js', () => ({
-  fetchAuthors: () => ({ type: 'blueprints/fetchAuthors' }),
+  fetchAll: () => ({ type: 'blueprints/fetchAll' }),
   fetchByAuthor: (author) => ({ type: 'blueprints/fetchByAuthor', payload: author }),
   fetchBlueprint: (payload) => ({ type: 'blueprints/fetchBlueprint', payload }),
 }))
