@@ -263,13 +263,50 @@ Aquí se corren las pruebas de los servicios y todas pasan. Se revisa que los do
 ## 5. Interfaz con React
 
 - El nombre del plano actual debe mostrarse en el DOM como parte del estado global (Redux).
+
+![alt text](image-74.png)
+
+Cuando se abre un plano, el resultado se guarda en Redux, en el campo current. Ahí quedan el autor, el nombre y los puntos.
+
+![alt text](image-75.png)
+
+El campo de texto toma su valor de current y muestra el autor y el nombre. Si todavía no hay un plano abierto, el campo queda vacío y se ve "Ningún plano abierto". Los puntos de ese mismo dato se le pasan al lienzo.
+
+![alt text](image-76.png)
+
+Al abrir house de JohnConnor, el campo muestra JohnConnor / house, que es lo que quedó guardado en el estado. La fila de house queda resaltada y el lienzo dibuja ese plano.
+
 - Evitar manipular directamente el DOM; usar componentes y props/estado.
+
+![alt text](image-77.png)
+
+La página toma los datos del estado global con useSelector. De ahí salen current, la lista de planos y los mensajes de carga o error.
+
+![alt text](image-78.png)
+
+Esos datos se pasan a los componentes por props. La tabla recibe los planos, el nombre del que está abierto y la función para abrirlo. El lienzo recibe los puntos.
 
 ## 6. Estilos
 
 - Agregar estilos para mejorar la presentación.
+
+![alt text](image-79.png)
+
+Los estilos están en styles.css. La clase card arma las tarjetas y la clase btn arma los botones. El botón Get blueprints usa btn primary.
+
 - Se puede usar Bootstrap u otro framework CSS.
+
+El archivo styles.css tiene las clases de las tarjetas, los botones y la tabla, y con eso se arma la presentación de la página.
+
 - Ajustar la tabla, botones y tarjetas para acercarse al mock de referencia.
+
+![alt text](image-80.png)
+
+La tabla ocupa el ancho de la tarjeta, separa las filas y resalta la del plano que está abierto.
+
+![alt text](image-81.png)
+
+Así queda la página. La búsqueda, la tabla y el plano abierto van en tarjetas. Los botones se distinguen y la fila de house, que es el plano abierto, queda marcada.
 
 ## 7. Pruebas unitarias
 
@@ -277,6 +314,22 @@ Aquí se corren las pruebas de los servicios y todas pasan. Se revisa que los do
   - Render del canvas.
   - Envío de formularios.
   - Interacciones básicas con Redux (por ejemplo: dispatch de `fetchByAuthor`).
+
+![alt text](image-82.png)
+
+Esta prueba monta el lienzo y revisa que el canvas aparezca en la página.
+
+![alt text](image-83.png)
+
+Esta prueba escribe el autor, el nombre y los puntos, envía el formulario y revisa que esos datos lleguen al guardar.
+
+![alt text](image-84.png)
+
+Esta prueba escribe un autor, da clic en Get blueprints y revisa que se dispare fetchByAuthor con ese nombre.
+
+![alt text](image-85.png)
+
+Al correr esas pruebas pasan las del lienzo, la del formulario y la de la página.
 
 ---
 
