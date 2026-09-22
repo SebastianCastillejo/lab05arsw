@@ -1,4 +1,5 @@
 # Lab – React Client for Blueprints (Redux + Axios + JWT)
+# Rafael Moreno - Sebastian Castillejo
 
 > Basado en el cliente HTML/JS del repo de referencia, este laboratorio moderniza el _frontend_ con **React + Vite**, **Redux Toolkit**, **Axios** (con interceptores y JWT), **React Router** y pruebas con **Vitest + Testing Library**.
 
